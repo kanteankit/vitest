@@ -15,6 +15,6 @@ const showHello = ref(false)
   </button>
   <div v-if="showHello">
     <div>Async component</div>
-    <Hello :count="1" />
+    <!-- <Hello :count="1" /> -->
   </div>
 </template>
