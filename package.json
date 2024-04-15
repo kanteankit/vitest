@@ -1,100 +1,23 @@
 {
-  "name": "@vitest/monorepo",
+  "name": "@vitest/example-vue",
   "type": "module",
-  "version": "1.5.0",
   "private": true,
-  "packageManager": "pnpm@8.10.3",
-  "description": "Next generation testing framework powered by Vite",
-  "engines": {
-    "node": "^18.0.0 || >=20.0.0"
-  },
   "scripts": {
-    "ci": "ni && nr typecheck && nr lint && nr build && nr test:all",
-    "ci:docs": "pnpm run build && pnpm run docs:build",
-    "build": "pnpm -r --filter='./packages/**' run build",
-    "dev": "NODE_OPTIONS=\"--max-old-space-size=8192\" pnpm -r --parallel --filter='./packages/**' run dev",
-    "docs": "pnpm -C docs run dev",
-    "docs:build": "pnpm -C docs run build",
-    "docs:serve": "pnpm -C docs run serve",
-    "docs:https": "pnpm -C docs run preview-https",
-    "docs:https-no-prefetch": "pnpm -C docs run preview-https-no-prefetch",
-    "docs:examples": "tsx scripts/update-examples.ts",
-    "docs:contributors": "tsx scripts/update-contributors.ts",
-    "lint": "eslint --cache .",
-    "lint:fix": "nr lint --fix",
-    "publish-ci": "tsx scripts/publish-ci.ts",
-    "release": "bumpp package.json packages/*/package.json --commit --push --tag && git update-ref refs/heads/release refs/heads/main && git push origin release",
-    "test": "vitest --api -r test/core",
-    "test:run": "vitest run -r test/core",
-    "test:all": "CI=true pnpm -r --stream run test --allowOnly",
-    "test:ci": "CI=true pnpm -r --reporter-hide-prefix --stream --filter !test-browser --filter !test-esm --filter !test-browser run test --allowOnly",
-    "test:ci:vm-threads": "CI=true pnpm -r --reporter-hide-prefix --stream --filter !test-coverage --filter !test-single-thread --filter !test-browser --filter !test-esm --filter !test-network-imports --filter !test-browser --filter !example-react-testing-lib-msw run test --allowOnly --pool vmThreads",
-    "test:ci:no-threads": "CI=true pnpm -r --reporter-hide-prefix --stream --filter !test-vm-threads --filter !test-coverage --filter !test-watch --filter !test-bail --filter !test-esm --filter !test-browser run test --allowOnly --pool forks",
-    "typecheck": "tsc -p tsconfig.check.json --noEmit",
-    "typecheck:why": "tsc -p tsconfig.check.json --noEmit --explainFiles > explainTypes.txt",
-    "ui:build": "vite build packages/ui",
-    "ui:dev": "vite packages/ui",
-    "ui:test": "npm -C packages/ui run test:run",
-    "test:browser:webdriverio": "pnpm -C test/browser run test:webdriverio",
-    "test:browser:playwright": "pnpm -C test/browser run test:playwright"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "vue": "latest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.4",
-    "@antfu/ni": "^0.21.12",
-    "@playwright/test": "^1.41.0",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-json": "^6.0.1",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@types/node": "^20.11.5",
-    "@types/ws": "^8.5.9",
-    "@vitest/browser": "workspace:*",
-    "@vitest/coverage-istanbul": "workspace:*",
-    "@vitest/coverage-v8": "workspace:*",
-    "@vitest/ui": "workspace:*",
-    "bumpp": "^9.2.1",
-    "esbuild": "^0.19.11",
-    "eslint": "^8.54.0",
-    "fast-glob": "^3.3.2",
-    "lint-staged": "^15.1.0",
-    "magic-string": "^0.30.5",
-    "pathe": "^1.1.1",
-    "rimraf": "^5.0.5",
-    "rollup": "^4.9.6",
-    "rollup-plugin-dts": "^6.1.0",
-    "rollup-plugin-esbuild": "^6.1.1",
-    "rollup-plugin-license": "^3.2.0",
-    "simple-git-hooks": "^2.9.0",
-    "tsx": "^4.6.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.6",
-    "vitest": "workspace:*",
-    "zx": "^8.0.1"
+    "@vitejs/plugin-vue": "latest",
+    "@vitest/coverage-v8": "^1.5.0",
+    "@vue/test-utils": "^2.4.1",
+    "jsdom": "latest",
+    "vite": "latest",
+    "vitest": "latest"
   },
-  "pnpm": {
-    "overrides": {
-      "rollup": "$rollup",
-      "vite": "$vite",
-      "vitest": "workspace:*"
-    },
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search"
-      ]
-    },
-    "patchedDependencies": {
-      "@types/chai@4.3.6": "patches/@types__chai@4.3.6.patch",
-      "@sinonjs/fake-timers@11.1.0": "patches/@sinonjs__fake-timers@11.1.0.patch",
-      "cac@6.7.14": "patches/cac@6.7.14.patch",
-      "@types/sinonjs__fake-timers@8.1.5": "patches/@types__sinonjs__fake-timers@8.1.5.patch",
-      "v8-to-istanbul@9.2.0": "patches/v8-to-istanbul@9.2.0.patch"
-    }
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
-  },
-  "lint-staged": {
-    "*.{?([cm])[jt]s?(x),vue,md}": [
-      "eslint --cache --fix"
-    ]
+  "stackblitz": {
+    "startCommand": "npm run test"
   }
 }
